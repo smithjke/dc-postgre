@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  pg-db:
+    image: postgres
+    restart: unless-stopped
+    networks:
+      - dc-postgre-net
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: first-db
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+
+  pg-adminer:
+    image: adminer
+    restart: unless-stopped
+    networks:
+      - dc-postgre-net
+    ports:
+      - 8888:8080
+
+networks:
+  dc-postgre-net:
+    driver: bridge
